@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Console</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="container">
+        <p>Type here your commands</p>
+
+    </div>
+    <span>:
+    </span>
+    <input id="input" placeholder="type here">
+
+    <iframe src="https://londra.mae.ro" frameborder="0"></iframe>
+
+    <script>
+        const input = document.querySelector("#input")
+        window.onclick = function () {
+            input.focus()
+        }
+        const commands = []
+        let index = -1
+
+        function addLine(content) {
+            const newP = document.createElement("p")
+            newP.textContent = content
+            document.querySelector("#container").appendChild(newP)
+
+
+
+        }
+        input.onkeydown = function (event) {
+            console.log(index, commands)
+            if (event.key === "Enter") {
+                addLine(input.value)
+                if (input.value.trim()) {
+                    commands.unshift(input.value)
+                }
+                index = -1
+
+                if (input.value === "clear") {
+                    clear()
+
+                } else if (input.value === "hello") {
+                    addLine("hello to you")
+                } else if (input.value.includes("calc")) {
+                    try {
+                        const result = eval(input.value.replace("calc", ""))
+
+                        addLine(result)
+
+                    } catch (error) {
+                        addLine(error)
+
+                    }
+                } else if (input.value === "ba esti prost") {
+                    addLine("ba esti nebun")
+                } else if (input.value === "surprise") {
+                    const digi24 = window.open("https://digi24.ro")
+                    setTimeout(function () { digi24.close() }, 3000)
+                } else if (input.value === "play") {
+                    const div = document.createElement("div")
+                    div.id = "ball"
+                    document.body.appendChild(div)
+                    div.onclick = function () {
+                        alert("you won")
+                        this.remove()
+                    }
+                } else if (input.value === "view") {
+                    document.querySelector("iframe").style.display = "block"
+
+                } else if (input.value === "closeview") {
+                    document.querySelector("iframe").style.display = "none"
+                } else if (input.value === "shop") {
+                    const div = document.createElement("div")
+                    div.id = "productscontainer"
+                    fetch("products.json").then(function (response) {
+                        return response.json()
+                    }).then(function (products) {
+                        let contents = ""
+                        products.forEach(function (product) {
+                            const content = `
+                            <div id="product">
+                               <img src="${product.img}"> 
+                                <h3>${product.title}</h3>
+                                <h4>£${product.price}</h4>
+                                <h5>quantity:${product.quantity}</h5>
+
+                                </div>
+                            `
+                            contents += content
+                        })
+                        div.innerHTML = contents
+                        document.body.appendChild(div)
+                    })
+                }
+
+                input.value = ""
+            } else if (event.key === "ArrowUp") {
+                index++
+                const command = commands[index]
+                if (command) {
+                    input.value = command
+
+                }
+                if (index === commands.length) {
+                    index = 0
+                }
+                input.value = commands[index]
+
+            } else if (event.key === "ArrowDown") {
+                index--
+                if (index < 0) {
+                    if (commands.length) {
+                        index = commands.length - 1
+
+                    } else {
+                        index = 0
+                    }
+                }
+                const command = commands[index]
+
+                if (command) {
+                    input.value = command
+
+                }
+
+                input.value = commands[index]
+
+            }
+        }
+        function clear() {
+            document.querySelector("#container").innerHTML = ""
+        }
+
+
+    </script>
+
+</body>
+
+</html>
