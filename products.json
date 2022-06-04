@@ -9,6 +9,13 @@
         "title": "cars",
         "price": 2000,
         "quantity": 15,
-        "img": "https://n4.sdlcdn.com/imgs/d/5/1/O-Positive-Orange-Aviator-Sunglasses-SDL332454042-1-169f2.jpg"
+        "img": "cars.jpg"
+    },
+    {
+        "title": "smartphones",
+        "price": 799,
+        "quantity": 10,
+        "img": "smartphone.jpg"
+
     }
 ]
